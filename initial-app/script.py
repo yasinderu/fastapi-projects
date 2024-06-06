@@ -15,7 +15,7 @@ collection.create_index('name')
 
 # Add rating field to each course
 for course in courses:
-    course['rating'] = {'total': 0, 'count': 0}
+    course['rating'] = {'total': 5, 'count': 0}
 
 for course in courses:
     for chapter in course['chapters']:
