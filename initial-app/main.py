@@ -40,7 +40,7 @@ def get_courses(sort_by: str = 'date', domain: Union[str, None] = None):
         query['domain'] = domain
 
     courses = db.courses.find(query, 
-                              {'name': 1, 'date': 1, 'description': 1, 'rating': 1, '_id': 0}
+                              {'name': 1, 'date': 1, 'description': 1, 'domain': 1, 'rating': 1, '_id': 0}
                               ).sort(sort_field, sort_order)
     return list(courses)
 
@@ -55,7 +55,7 @@ def get_course_by_id(course_id: str):
         course['rating'] = 'Not rated yet'
 
     return course
-@app.get('/course/{course_id}/{chapter_id}')
+@app.get('/courses/{course_id}/{chapter_id}')
 def get_chapter(course_id: str, chapter_id: str):
     course = db.courses.find_one({'_id': ObjectId(course_id)}, {'_id': 0})
     if not course:
@@ -68,7 +68,7 @@ def get_chapter(course_id: str, chapter_id: str):
     
     return chapter
 
-@app.post('/course/{course_id}/{chapter_id}')
+@app.post('/courses/{course_id}/{chapter_id}')
 def rate_chapter(course_id: str, chapter_id: str, rating: int = Query(..., gt=-2, lt=2)):
     course = db.courses.find_one({'_id': ObjectId(course_id)}, {'_id': 0})
     if not course:
